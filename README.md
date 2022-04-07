@@ -1,4 +1,5 @@
 # Create a web API with ASP.NET Core controllers
+## .NET 6.0
 
 Create a RESTful service with ASP.NET Core controllers that supports create, read, update, delete (CRUD) operations.
 
