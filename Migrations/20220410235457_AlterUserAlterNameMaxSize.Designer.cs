@@ -3,6 +3,7 @@ using System;
 using ControleFinanceiroApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControleFinanceiroApi.Migrations
 {
     [DbContext(typeof(ControleFinanceiroContext))]
-    partial class ControleFinanceiroContextModelSnapshot : ModelSnapshot
+    [Migration("20220410235457_AlterUserAlterNameMaxSize")]
+    partial class AlterUserAlterNameMaxSize
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,6 +34,7 @@ namespace ControleFinanceiroApi.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
+                        .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Password")
