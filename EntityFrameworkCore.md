@@ -25,3 +25,15 @@ dotnet ef migrations add InitialCreate --context ControleFinanceiroContext
 dotnet ef database update --context ControleFinanceiroContext
 ```
 
+## HTTP PATCH
+``` 
+dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson --version 6.0.4
+```
+
+```
+dotnet add package Microsoft.AspNetCore.JsonPatch --version 6.0.4
+```
+
+```
+builder.Services.AddControllers().AddNewtonsoftJson();
+```

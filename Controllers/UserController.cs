@@ -1,5 +1,6 @@
 using ControleFinanceiroApi.Data;
 using ControleFinanceiroApi.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -68,6 +69,19 @@ public class UserController : ControllerBase
         return NoContent();
     }
 
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> UpdateUserPartial(int id, JsonPatchDocument<User> patch)
+    {
+        var userDB = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+        if (userDB == null)
+            return NotFound();
+
+        userDB.Updated_at = DateTime.Now;
+        patch.ApplyTo(userDB);
+        await _context.SaveChangesAsync();
+        return Ok(userDB);
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(int id)
     {
@@ -84,4 +98,5 @@ public class UserController : ControllerBase
     {
         return _context.Users.Any(user => user.Id == id);
     }
+
 }
