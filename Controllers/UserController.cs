@@ -72,7 +72,7 @@ public class UserController : ControllerBase
     [HttpPatch("{id}")]
     public async Task<IActionResult> UpdateUserPartial(int id, JsonPatchDocument<User> patch)
     {
-        var userDB = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+        var userDB = await _context.Users.FindAsync(id);
         if (userDB == null)
             return NotFound();
 
