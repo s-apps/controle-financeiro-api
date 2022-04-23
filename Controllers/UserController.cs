@@ -35,6 +35,9 @@ public class UserController : ControllerBase
 	[HttpPost]
 	public async Task<ActionResult<User>> InsertUser(User user)
 	{
+        if (!ModelState.IsValid)
+            return NotFound();
+
 		user.Created_at = DateTime.Now;
 		_context.Users.Add(user);
 		await _context.SaveChangesAsync();
@@ -70,7 +73,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> UpdateUserPartial(int id, JsonPatchDocument<User> patch)
+    public async Task<IActionResult> UpdateUserPartial([FromRoute] int id, [FromBody] JsonPatchDocument<User> patch)
     {
         var userDB = await _context.Users.FindAsync(id);
         if (userDB == null)

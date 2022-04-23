@@ -1,15 +1,9 @@
 using ControleFinanceiroApi.Data;
-using JsonPatchSample;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-/* builder.Services.AddControllers(options =>
-{
-    options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
-}); */
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 
@@ -34,7 +28,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseCors(cors => cors.AllowAnyOrigin());
+app.UseCors(cors => cors.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.MapControllers();
 
