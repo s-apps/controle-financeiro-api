@@ -7,4 +7,5 @@ public class ControleFinanceiroContext : DbContext
     public ControleFinanceiroContext(DbContextOptions<ControleFinanceiroContext> options) : base(options)
     {}
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Category> Categories { get; set; } = null!;
 }

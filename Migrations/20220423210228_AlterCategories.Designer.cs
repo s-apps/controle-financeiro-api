@@ -3,6 +3,7 @@ using System;
 using ControleFinanceiroApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControleFinanceiroApi.Migrations
 {
     [DbContext(typeof(ControleFinanceiroContext))]
-    partial class ControleFinanceiroContextModelSnapshot : ModelSnapshot
+    [Migration("20220423210228_AlterCategories")]
+    partial class AlterCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,10 +30,6 @@ namespace ControleFinanceiroApi.Migrations
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("varchar(80)");
-
-                    b.Property<string>("CategoryType")
-                        .IsRequired()
-                        .HasColumnType("varchar(7)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -75,17 +73,12 @@ namespace ControleFinanceiroApi.Migrations
             modelBuilder.Entity("ControleFinanceiroApi.Models.Category", b =>
                 {
                     b.HasOne("ControleFinanceiroApi.Models.User", "User")
-                        .WithMany("Categories")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ControleFinanceiroApi.Models.User", b =>
-                {
-                    b.Navigation("Categories");
                 });
 #pragma warning restore 612, 618
         }

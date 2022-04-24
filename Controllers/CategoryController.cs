@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using ControleFinanceiroApi.Data;
+using ControleFinanceiroApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControleFinanceiroApi.Controllers
 {
@@ -11,36 +9,44 @@ namespace ControleFinanceiroApi.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        // GET: api/Category
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+	    private readonly ControleFinanceiroContext _context;
+	    public CategoryController(ControleFinanceiroContext context)
+	    {
+		    _context = context;
+	    }
 
-        // GET: api/Category/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+	    [HttpGet]
+	    public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
+	    {
+		    return await _context.Categories.ToListAsync();
+	    }
 
-        // POST: api/Category
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<Category>> InsertCategory(Category category)
         {
+            if (!ModelState.IsValid)
+                return NotFound();
+
+		    _context.Categories.Add(category);
+		    await _context.SaveChangesAsync();
+		    return Ok(category);
         }
 
-        // PUT: api/Category/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/Category/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+                return NotFound();
+
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
+
+
     }
+
+
 }

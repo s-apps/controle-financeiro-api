@@ -3,6 +3,7 @@ using System;
 using ControleFinanceiroApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControleFinanceiroApi.Migrations
 {
     [DbContext(typeof(ControleFinanceiroContext))]
-    partial class ControleFinanceiroContextModelSnapshot : ModelSnapshot
+    [Migration("20220423221748_AddColumnListCategoryUser")]
+    partial class AddColumnListCategoryUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,13 +76,11 @@ namespace ControleFinanceiroApi.Migrations
 
             modelBuilder.Entity("ControleFinanceiroApi.Models.Category", b =>
                 {
-                    b.HasOne("ControleFinanceiroApi.Models.User", "User")
+                    b.HasOne("ControleFinanceiroApi.Models.User", null)
                         .WithMany("Categories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ControleFinanceiroApi.Models.User", b =>

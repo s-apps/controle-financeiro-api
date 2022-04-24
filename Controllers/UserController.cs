@@ -45,7 +45,7 @@ public class UserController : ControllerBase
 	}
 
 	[HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(int id, User user)
+    public async Task<ActionResult<User>> UpdateUser(int id, User user)
     {
         if (id != user.Id)
             return BadRequest();
@@ -73,7 +73,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> UpdateUserPartial([FromRoute] int id, [FromBody] JsonPatchDocument<User> patch)
+    public async Task<ActionResult<User>> UpdateUserPartial([FromRoute] int id, [FromBody] JsonPatchDocument<User> patch)
     {
         var userDB = await _context.Users.FindAsync(id);
         if (userDB == null)

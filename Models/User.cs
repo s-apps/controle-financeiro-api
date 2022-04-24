@@ -19,4 +19,6 @@ public class User
 	public DateTime? Created_at { get; set; }
 
 	public DateTime? Updated_at { get; set; }
+	
+	public virtual List<Category>? Categories { get; set; }
 }
