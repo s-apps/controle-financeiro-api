@@ -21,4 +21,5 @@ public class User
 	public DateTime? Updated_at { get; set; }
 	
 	public virtual List<Category>? Categories { get; set; }
+	public virtual List<Account>? Accounts { get; set; }
 }
