@@ -14,6 +14,7 @@ public class Category
     [Required]
     public string? CategoryType { get; set; }
 
+    [Required]
     public int UserId { get; set; }
     
     public virtual User? User { get; set; }

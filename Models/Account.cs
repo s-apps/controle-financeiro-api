@@ -13,6 +13,9 @@ public class Account
     [Required]
     public double? Balance { get; set; }
 
+    [Required]
+    public int UserId { get; set; }
+    
     public virtual User? User { get; set; }
     
 }
