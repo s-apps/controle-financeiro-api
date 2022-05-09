@@ -22,4 +22,5 @@ public class User
 	
 	public virtual List<Category>? Categories { get; set; }
 	public virtual List<Account>? Accounts { get; set; }
+	public virtual List<Transaction>? Transactions { get; set; }
 }

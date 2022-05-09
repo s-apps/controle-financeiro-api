@@ -3,6 +3,7 @@ using System;
 using ControleFinanceiroApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControleFinanceiroApi.Migrations
 {
     [DbContext(typeof(ControleFinanceiroContext))]
-    partial class ControleFinanceiroContextModelSnapshot : ModelSnapshot
+    [Migration("20220508193740_CreatingTransactions")]
+    partial class CreatingTransactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,10 +85,6 @@ namespace ControleFinanceiroApi.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("varchar(80)");
-
                     b.Property<DateTime?>("ExpirationDate")
                         .HasColumnType("datetime(6)");
 
@@ -103,6 +101,10 @@ namespace ControleFinanceiroApi.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("varchar(80)");
 
                     b.HasKey("Id");
 
