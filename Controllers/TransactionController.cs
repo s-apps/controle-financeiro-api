@@ -27,12 +27,21 @@ public class TransactionController : ControllerBase
                 account => account.Id,
                 (transaction, account) => new
                 {
-                    id = transaction.Id,
-                    registrationDate = transaction.RegistrationDate,
-                    description = transaction.Description,
-                    amount = transaction.Amount,
-                    accountId = account.Id,
-                    accountName = account.AccountName
+                    TransactionId = transaction.Id,
+                    AccountId = account.Id,
+                    AccountName = account.AccountName,
+                    CategoryId = transaction.CategoryId
+                }
+            )
+            .Join(
+                _context.Categories,
+                transaction => transaction.CategoryId,
+                category => category.Id,
+                (transaction, category) => new
+                {
+                    TransactionId = transaction.TransactionId,
+                    CategoryName = category.CategoryName,
+                    CategoryType = category.CategoryType
                 }
             ).ToListAsync();      
         return Ok(result);

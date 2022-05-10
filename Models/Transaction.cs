@@ -13,10 +13,7 @@ public class Transaction {
     public int AccountId { set; get; }
 
     public int CategoryId { set; get; }
-
-    [Required]
-    public string? Type { set; get; }
-    
+   
     [Required]
     public DateTime? RegistrationDate { set; get; }
 
