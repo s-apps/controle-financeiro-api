@@ -28,6 +28,10 @@ public class TransactionController : ControllerBase
                 (transaction, account) => new
                 {
                     TransactionId = transaction.Id,
+                    RegistrationDate = transaction.RegistrationDate,
+                    Description = transaction.Description,
+                    Amount = transaction.Amount,
+                    UserId = transaction.UserId,
                     AccountId = account.Id,
                     AccountName = account.AccountName,
                     CategoryId = transaction.CategoryId
@@ -40,10 +44,19 @@ public class TransactionController : ControllerBase
                 (transaction, category) => new
                 {
                     TransactionId = transaction.TransactionId,
+                    RegistrationDate = transaction.RegistrationDate,
+                    Description = transaction.Description,
+                    Amount = transaction.Amount,
+                    UserId = transaction.UserId,
+                    AccountId = transaction.AccountId,
+                    AccountName = transaction.AccountName,
+                    CategoryId = transaction.CategoryId,
                     CategoryName = category.CategoryName,
                     CategoryType = category.CategoryType
                 }
-            ).ToListAsync();      
+            )
+            .Where(user => user.UserId == 4)
+            .ToListAsync();      
         return Ok(result);
     }
 
