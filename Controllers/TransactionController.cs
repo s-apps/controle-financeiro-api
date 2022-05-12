@@ -20,43 +20,22 @@ public class TransactionController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Transaction>>> GetAllTransactions()
     {
-        var result = await _context.Transactions
-            .Join(
-                _context.Accounts,
-                transaction => transaction.AccountId,
-                account => account.Id,
-                (transaction, account) => new
-                {
-                    TransactionId = transaction.Id,
-                    RegistrationDate = transaction.RegistrationDate,
-                    Description = transaction.Description,
-                    Amount = transaction.Amount,
-                    UserId = transaction.UserId,
-                    AccountId = account.Id,
-                    AccountName = account.AccountName,
-                    CategoryId = transaction.CategoryId
-                }
-            )
-            .Join(
-                _context.Categories,
-                transaction => transaction.CategoryId,
-                category => category.Id,
-                (transaction, category) => new
-                {
-                    TransactionId = transaction.TransactionId,
-                    RegistrationDate = transaction.RegistrationDate,
-                    Description = transaction.Description,
-                    Amount = transaction.Amount,
-                    UserId = transaction.UserId,
-                    AccountId = transaction.AccountId,
-                    AccountName = transaction.AccountName,
-                    CategoryId = transaction.CategoryId,
-                    CategoryName = category.CategoryName,
-                    CategoryType = category.CategoryType
-                }
-            )
-            .Where(user => user.UserId == 4)
-            .ToListAsync();      
+        var result = await (
+            from t in _context.Transactions
+            join a in _context.Accounts on t.AccountId equals a.Id
+            join c in _context.Categories on t.CategoryId equals c.Id
+            where t.UserId == 5
+            select new 
+            {
+                TransactionId = t.Id,
+                RegistrationDate = t.RegistrationDate,
+                Description = t.Description,
+                Amount = t.Amount,
+                AccountName = a.AccountName,
+                CategoryName = c.CategoryName
+            })
+            .ToListAsync();
+                        
         return Ok(result);
     }
 
