@@ -1,10 +1,10 @@
 namespace ControleFinanceiroApi.Models
 {
-    public class Category
+    public class Account
     {
-        public int? CategoryId { get; set; }
+        public int? AccountId { get; set; }
         public string? Description { get; set; }
-        public string? Type { get; set; }
+        public double? Balance { get; set; }
         public int? UserId { get; set; }
         public User? User { get; set; }
     }

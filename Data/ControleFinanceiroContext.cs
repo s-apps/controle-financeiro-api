@@ -9,6 +9,8 @@ namespace ControleFinanceiroApi.Data
         {}
         DbSet<User> Users { get; set; } = null!;
         DbSet<Category> Categories { get; set; } = null!;
+        DbSet<Account> Accounts { get; set; } = null!;
+        DbSet<Transaction> Transactions { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -36,7 +38,36 @@ namespace ControleFinanceiroApi.Data
             modelBuilder.Entity<Category>()
                 .HasOne<User>(u => u.User)
                 .WithMany(c => c.Categories)
-                .HasForeignKey(u => u.UserId);    
+                .HasForeignKey(u => u.UserId);
+            modelBuilder.Entity<Category>()
+                .Property(c => c.Description)
+                .HasMaxLength(80)
+                .IsRequired();
+            modelBuilder.Entity<Category>()
+                .Property(c=> c.Type)
+                .HasMaxLength(10)
+                .IsRequired();    
+
+            modelBuilder.Entity<Account>()
+                .HasKey(a => a.AccountId);
+            modelBuilder.Entity<Account>()
+                .HasOne<User>(u => u.User)
+                .WithMany(a => a.Accounts) 
+                .HasForeignKey(u => u.AccountId); 
+            modelBuilder.Entity<Account>()
+                .Property(a => a.Description)
+                .HasMaxLength(80)
+                .IsRequired();
+            modelBuilder.Entity<Account>()
+                .Property(a => a.Balance)
+                .IsRequired();   
+
+            modelBuilder.Entity<Transaction>()
+                .HasKey(t => t.TransactionId);
+            modelBuilder.Entity<Transaction>()
+                .HasOne<User>(u => u.User)
+                .WithMany(c => c.Transactions)
+                .HasForeignKey(u => u.UserId); 
         }
     }
 }
