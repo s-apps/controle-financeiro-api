@@ -7,5 +7,6 @@ namespace ControleFinanceiroApi.Models
         public string? Type { get; set; }
         public int? UserId { get; set; }
         public User? User { get; set; }
+        public ICollection<Transaction>? Transactions { get; set; }
     }
 }
