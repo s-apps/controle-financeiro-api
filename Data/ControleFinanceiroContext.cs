@@ -7,23 +7,31 @@ namespace ControleFinanceiroApi.Data
     {
         public ControleFinanceiroContext(DbContextOptions<ControleFinanceiroContext> options) : base(options)
         {}
-        DbSet<User> Users { get; set; } = null!;
-        DbSet<Category> Categories { get; set; } = null!;
-        DbSet<Account> Accounts { get; set; } = null!;
-        DbSet<Transaction> Transactions { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Account> Accounts { get; set; } = null!;
+        public DbSet<Transaction> Transactions { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>()
                 .HasKey(c => c.CategoryId);
             modelBuilder.Entity<Category>()
                 .HasOne(u => u.User)
-                .WithMany(c => c.Categories); 
+                .WithMany(c => c.Categories);
+            modelBuilder.Entity<Category>()
+                .Property(c => c.Type)
+                .HasMaxLength(10)
+                .IsRequired();
+            modelBuilder.Entity<Category>()
+                .Property(c => c.Description)
+                .HasMaxLength(80)
+                .IsRequired(); 
             modelBuilder.Entity<Category>()
                 .HasData(
                     new Category { 
                             CategoryId = 1, 
                             Description = "teste", 
-                            Type = "teste", 
+                            Type = "revenue", 
                             UserId = 1 
                         }
                     );    
@@ -33,6 +41,13 @@ namespace ControleFinanceiroApi.Data
             modelBuilder.Entity<Account>()
                 .HasOne(u => u.User)
                 .WithMany(a => a.Accounts);
+            modelBuilder.Entity<Account>()
+                .Property(a => a.Description)
+                .HasMaxLength(80)
+                .IsRequired();
+            modelBuilder.Entity<Account>()
+                .Property(a => a.Balance)
+                .IsRequired();
             modelBuilder.Entity<Account>()
                 .HasData(
                     new Account {
@@ -46,7 +61,13 @@ namespace ControleFinanceiroApi.Data
             modelBuilder.Entity<Transaction>()
                 .HasKey(t => new { t.TransactionId, t.UserId, t.CategoryId, t.AccountId });
             modelBuilder.Entity<Transaction>()    
-                .Property(t => t.TransactionId).ValueGeneratedOnAdd();   
+                .Property(t => t.TransactionId).ValueGeneratedOnAdd();  
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.RegistrationDate)
+                .IsRequired();
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.Amount)
+                .IsRequired();         
             modelBuilder.Entity<Transaction>()
                 .HasOne(u => u.User)
                 .WithMany(t => t.Transactions);
@@ -67,12 +88,27 @@ namespace ControleFinanceiroApi.Data
                         ExpirationDate = null,
                         PaymentDate = null,
                         Image = null,
-                        Amount = 100.00
+                        Amount = 200.00
                     }
                 ); 
 
             modelBuilder.Entity<User>()
                 .HasKey(u => u.UserId);
+            modelBuilder.Entity<User>()
+                .Property(u => u.FullName)
+                .HasMaxLength(60)
+                .IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(u => u.Email)
+                .HasMaxLength(255)
+                .IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(u => u.Password)
+                .HasMaxLength(255)
+                .IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(u => u.CreatedDate)
+                .IsRequired();            
             modelBuilder.Entity<User>()
                 .HasData(
                     new User {
