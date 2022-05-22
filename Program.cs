@@ -33,8 +33,8 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
+app.UseAuthentication();//a ordem importa - primeiro authentication depois authorization
 app.UseAuthorization();
-app.UseAuthentication();
 app.MapControllers();
 app.UseCors(cors => cors.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 

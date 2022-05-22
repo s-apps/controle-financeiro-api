@@ -29,6 +29,12 @@ namespace ControleFinanceiroApi.Controllers
             return await _context.Accounts.ToListAsync();
         }
 
+        [HttpGet("claims")]
+        public ActionResult GetClaims()
+        {
+            return Ok(HttpContext.User.Claims.First(claim => claim.Type.ToString().Equals("id", StringComparison.CurrentCultureIgnoreCase)).Value);
+        }
+
         // GET: api/Accounts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccount(int? id)
